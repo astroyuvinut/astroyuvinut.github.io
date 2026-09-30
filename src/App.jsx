@@ -1,13 +1,11 @@
 import './App.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLenis } from './hooks/useLenis'
 import Preloader from './components/Preloader'
-import Cursor from './components/Cursor'
 import ResumeButton from './components/ResumeButton'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import Marquee from './components/Marquee'
 import Divider from './components/Divider'
 import About from './components/About'
 import Projects from './components/Projects'
@@ -15,9 +13,20 @@ import Skills from './components/Skills'
 import Research from './components/Research'
 import Certifications from './components/Certifications'
 import Contact from './components/Contact'
+import IceBackground from './components/IceBackground'
+import { PROJECTS } from './data/projects'
+
+const INTRO_KEY = 'intro-seen'
 
 export default function App() {
-  const [loading, setLoading] = useState(true)
+  // intro plays once per browser session; repeat visits land straight on the content
+  const [loading, setLoading] = useState(() => {
+    try { return !sessionStorage.getItem(INTRO_KEY) } catch { return true }
+  })
+  const finishIntro = useCallback(() => {
+    try { sessionStorage.setItem(INTRO_KEY, '1') } catch { /* storage blocked */ }
+    setLoading(false)
+  }, [])
   useLenis()
 
   // lock scroll while the preloader is up
@@ -29,10 +38,10 @@ export default function App() {
   return (
     <>
       <AnimatePresence>
-        {loading && <Preloader key="preloader" onDone={() => setLoading(false)} />}
+        {loading && <Preloader key="preloader" onDone={finishIntro} />}
       </AnimatePresence>
 
-      <Cursor />
+      <IceBackground stationCount={PROJECTS.length} />
       <ResumeButton />
       <Navbar />
 
@@ -43,7 +52,6 @@ export default function App() {
         style={{ transformOrigin: '50% 35%' }}
       >
         <Hero />
-        <Marquee />
 
         <Divider label="ON EARTH" index="01" />
         <About />
@@ -51,8 +59,6 @@ export default function App() {
 
         <Divider label="IN ORBIT" index="02" />
         <Research />
-
-        <Marquee reverse duration={34} />
 
         <Divider label="IN CODE" index="03" />
         <Skills />

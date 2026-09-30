@@ -8,7 +8,7 @@ const STATS = [
 
 export default function About() {
   return (
-    <section className="about section" id="about">
+    <section className="about section" id="about" data-shot="wide" data-label="About">
       <Reveal as="p" className="section__kicker">[ ABOUT ]</Reveal>
       <div className="about__grid">
         <Reveal>

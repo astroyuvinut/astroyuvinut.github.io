@@ -9,7 +9,7 @@ const AREAS = [
 
 export default function Research() {
   return (
-    <section className="research section" id="research">
+    <section className="research section" id="research" data-shot="wide" data-label="Research">
       <Reveal as="p" className="section__kicker">[ RESEARCH DIRECTION ]</Reveal>
       <Reveal>
         <h2 className="section__title">

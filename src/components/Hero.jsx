@@ -1,14 +1,6 @@
 import { useRef } from 'react'
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionValue,
-  useMotionTemplate,
-  useSpring,
-} from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
-import Circuits from './Circuits'
 import signature from '../assets/signature.webp'
 
 export default function Hero() {
@@ -19,30 +11,13 @@ export default function Hero() {
   const textY = useTransform(scrollYProgress, [0, 1], [0, -120])
   const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
-  // Circuits react to the cursor: a glow follows the pointer.
-  const cx = useMotionValue(-500)
-  const cy = useMotionValue(-500)
-  const circuitR = useSpring(0, { stiffness: 150, damping: 22, mass: 0.6 })
-  const circuitMask = useMotionTemplate`radial-gradient(circle ${circuitR}px at ${cx}px ${cy}px, #000 0%, #000 42%, transparent 78%)`
-
-  const onMove = (e) => {
-    const r = ref.current.getBoundingClientRect()
-    cx.set(e.clientX - r.left)
-    cy.set(e.clientY - r.top)
-  }
-  const onEnter = () => circuitR.set(320)
-  const onLeave = () => circuitR.set(0)
-
   const word = {
     hidden: { y: '115%' },
     show: { y: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } },
   }
 
   return (
-    <section className="hero hero--noimg" id="top" ref={ref} onMouseEnter={onEnter} onMouseMove={onMove} onMouseLeave={onLeave}>
-      {/* animated circuit traces behind everything */}
-      <Circuits glowMask={circuitMask} />
-
+    <section className="hero hero--noimg" id="top" data-shot="hero" data-label="Intro" ref={ref}>
       {/* GIANT NAME */}
       <motion.div className="hero__bigname" style={{ y: textY }} aria-hidden>
         <motion.span className="hero__bigname-line" initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.12 } } }}>
@@ -65,7 +40,7 @@ export default function Hero() {
       <motion.div className="hero__fg" style={{ opacity: fade }}>
         <motion.span
           className="hero__eyebrow"
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 16 }} animate={{ y: 0 }}
           transition={{ delay: 0.5, duration: 0.7 }}
         >
           AI / ML ENGINEER · CSE–AI UNDERGRAD · ASPIRING ISRO / SPACE-AI RESEARCHER
@@ -73,7 +48,7 @@ export default function Hero() {
 
         <motion.p
           className="hero__sub"
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 16 }} animate={{ y: 0 }}
           transition={{ delay: 0.7, duration: 0.7 }}
         >
           Building <span className="serif accent">intelligent systems</span> for Earth &amp; space.
@@ -81,7 +56,7 @@ export default function Hero() {
 
         <motion.div
           className="hero__cta"
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 16 }} animate={{ y: 0 }}
           transition={{ delay: 0.9, duration: 0.7 }}
         >
           <a href="#projects" className="btn btn--accent">View work</a>

@@ -9,7 +9,7 @@ export default function Preloader({ onDone }) {
   const [pct, setPct] = useState(0)
 
   useEffect(() => {
-    const DURATION = 2600
+    const DURATION = 1200
     let raf
     let start = null
     let done = false
@@ -22,7 +22,7 @@ export default function Preloader({ onDone }) {
         raf = requestAnimationFrame(tick)
       } else if (!done) {
         done = true
-        setTimeout(onDone, 450)
+        setTimeout(onDone, 250)
       }
     }
     raf = requestAnimationFrame(tick)

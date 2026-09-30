@@ -10,7 +10,7 @@ const CERTS = [
 
 export default function Certifications() {
   return (
-    <section className="certs section">
+    <section className="certs section" data-shot="wide" data-label="Certifications">
       <Reveal as="p" className="section__kicker">[ CERTIFICATIONS ]</Reveal>
       <Reveal>
         <h2 className="section__title">
@@ -20,7 +20,7 @@ export default function Certifications() {
       <div className="certs__list">
         {CERTS.map((c, i) => (
           <Reveal key={i} delay={i * 0.06}>
-            <div className="cert" data-cursor>
+            <div className="cert">
               <span className="cert__org">{c.org}</span>
               <span className="cert__name">{c.name}</span>
               {c.year && <span className="cert__year">{c.year}</span>}

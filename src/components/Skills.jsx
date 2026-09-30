@@ -13,7 +13,7 @@ const LOGOS = ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'React', 'GitH
 
 export default function Skills() {
   return (
-    <section className="skills section" id="skills">
+    <section className="skills section" id="skills" data-shot="wide" data-label="Skills">
       <Reveal as="p" className="section__kicker">[ SKILLS STACK ]</Reveal>
       <Reveal>
         <h2 className="section__title">

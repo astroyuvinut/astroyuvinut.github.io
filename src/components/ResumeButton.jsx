@@ -7,7 +7,6 @@ export default function ResumeButton() {
       className="resume-fab"
       href={`${import.meta.env.BASE_URL}Yuvaraj-Resume.pdf`}
       download="Yuvaraju-Bondada-Resume.pdf"
-      data-cursor
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.4, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}

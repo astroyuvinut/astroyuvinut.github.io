@@ -78,29 +78,6 @@ main { width: 100%; overflow: hidden; }
   margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
 }
 
-/* ── Custom cursor (targeting reticle) ──────────────────── */
-.cursor-dot, .cursor-reticle {
-  position: fixed; top: 0; left: 0;
-  pointer-events: none; z-index: 9999;
-}
-.cursor-dot {
-  width: 6px; height: 6px;
-  margin: -3px 0 0 -3px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 8px rgba(210, 255, 0, 0.8);
-}
-.cursor-reticle {
-  width: 46px; height: 46px;
-  margin: -23px 0 0 -23px;
-}
-.cursor-reticle svg { width: 100%; height: 100%; overflow: visible; }
-.reticle-ring {
-  fill: none; stroke: var(--accent); stroke-width: 1.4; opacity: 0.85;
-  stroke-dasharray: 30 12;
-}
-.reticle-tick { stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; }
-
 /* ── Buttons ────────────────────────────────────────────── */
 .btn {
   display: inline-flex; align-items: center;
@@ -169,52 +146,6 @@ main { width: 100%; overflow: hidden; }
   display: flex; flex-direction: column; justify-content: flex-end;
   padding: 0 var(--gutter) clamp(2.5rem, 6vw, 4rem);
   perspective: 1200px;
-}
-
-/* animated circuit traces */
-.hero__circuits {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  z-index: 0; pointer-events: none;
-}
-.circuits__base path {
-  fill: none; stroke: var(--accent); stroke-width: 1.4;
-  stroke-linecap: round; stroke-linejoin: round;
-}
-.circuits__flow path {
-  fill: none; stroke: var(--accent); stroke-width: 2.2;
-  stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: 26 1000; stroke-dashoffset: 1000;
-  filter: drop-shadow(0 0 6px rgba(210, 255, 0, 0.8));
-  animation: circuitFlow linear infinite;
-}
-@keyframes circuitFlow {
-  0%   { stroke-dashoffset: 1000; opacity: 0; }
-  8%   { opacity: 1; }
-  92%  { opacity: 1; }
-  100% { stroke-dashoffset: 0; opacity: 0; }
-}
-.circuits__nodes circle {
-  fill: var(--accent);
-  filter: drop-shadow(0 0 5px rgba(210, 255, 0, 0.7));
-  animation: nodePulse 2.6s ease-in-out infinite;
-}
-@keyframes nodePulse {
-  0%, 100% { opacity: 0.35; }
-  50%      { opacity: 1; }
-}
-
-/* cursor-reactive glow layer */
-.hero__circuits--glow { z-index: 1; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-.circuits__lit path {
-  fill: none; stroke: #eaffa0; stroke-width: 3.2;
-  stroke-linecap: round; stroke-linejoin: round;
-  filter: drop-shadow(0 0 6px rgba(210, 255, 0, 1))
-          drop-shadow(0 0 16px rgba(210, 255, 0, 0.85));
-}
-.circuits__lit-nodes circle {
-  fill: #ffffff;
-  filter: drop-shadow(0 0 8px rgba(210, 255, 0, 1))
-          drop-shadow(0 0 18px rgba(210, 255, 0, 0.9));
 }
 
 /* giant name behind */
@@ -317,19 +248,6 @@ main { width: 100%; overflow: hidden; }
   100% { transform: translateX(100%); }
 }
 
-/* ── Marquee ────────────────────────────────────────────── */
-.marquee {
-  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  padding: 1.4rem 0; overflow: hidden; white-space: nowrap;
-}
-.marquee__track { display: inline-flex; width: max-content; }
-.marquee__item {
-  font-family: var(--sans); font-weight: 800; text-transform: uppercase;
-  font-size: clamp(1.4rem, 3.5vw, 2.6rem); letter-spacing: -0.01em;
-  display: inline-flex; align-items: center; padding: 0 1.5rem; color: var(--fg);
-}
-.marquee__dot { margin-left: 1.5rem; font-size: 0.7em; }
-
 /* ── Divider ────────────────────────────────────────────── */
 .divider {
   position: relative; padding: clamp(60px, 10vh, 120px) 0;
@@ -372,13 +290,7 @@ main { width: 100%; overflow: hidden; }
   transition: border-color .3s ease, background .3s ease;
   overflow: hidden;
 }
-.pcard::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(30rem 30rem at 80% 0%, rgba(210,255,0,0.08), transparent 60%);
-  opacity: 0; transition: opacity .35s ease;
-}
 .pcard:hover { border-color: rgba(210,255,0,0.45); }
-.pcard:hover::before { opacity: 1; }
 .pcard__top { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; }
 .pcard__tag { color: var(--muted); }
 .pcard__title { font-size: clamp(1.4rem, 2.6vw, 2.2rem); margin: 1.4rem 0 0.9rem; text-transform: none; }
@@ -447,6 +359,34 @@ main { width: 100%; overflow: hidden; }
 .contact__socials { display: flex; gap: 2.5rem; margin-top: 2.5rem; flex-wrap: wrap; }
 .contact__socials a { font-size: 1.1rem; font-weight: 700; transition: color .2s ease; }
 .contact__socials a:hover { color: var(--accent); }
+.contact__grid {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: clamp(2rem, 5vw, 4rem); flex-wrap: wrap;
+}
+.licard {
+  display: flex; flex-direction: column; align-items: flex-start;
+  min-width: 280px; padding: 1.5rem 1.6rem;
+  border: 1px solid var(--line); border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: border-color .25s ease, background .25s ease, transform .25s ease;
+}
+.licard:hover { border-color: var(--accent); background: rgba(255, 255, 255, 0.04); transform: translateY(-3px); }
+.licard__head { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 1.2rem; }
+.licard__logo { width: 26px; height: 26px; color: #0a66c2; }
+.licard__pulse {
+  width: 9px; height: 9px; border-radius: 50%; background: var(--accent);
+  animation: licard-pulse 2s ease-in-out infinite;
+}
+@keyframes licard-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+.licard__name { font-size: 1.15rem; font-weight: 700; }
+.licard__role { color: var(--muted); font-size: 0.92rem; margin-top: 0.25rem; }
+.licard__meta { color: var(--muted); font-size: 0.82rem; margin-top: 0.15rem; }
+.licard__cta {
+  margin-top: 1.2rem; font-weight: 700; font-size: 0.95rem;
+  border-bottom: 1px solid var(--line); padding-bottom: 2px;
+  transition: border-color .25s ease;
+}
+.licard:hover .licard__cta { border-color: var(--accent); }
 .contact__bottom {
   display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
   margin-top: clamp(4rem, 9vw, 7rem); padding-top: 2rem; border-top: 1px solid var(--line);
@@ -466,4 +406,99 @@ main { width: 100%; overflow: hidden; }
   .research__list { grid-template-columns: 1fr; }
   .research__list > :nth-child(even) .ritem { padding-left: 0; border-left: none; }
   .research__list > :nth-child(odd) .ritem { padding-right: 0; }
+
+  /* keep hero CTAs clear of the floating résumé button */
+  .hero { padding-bottom: 7.5rem; }
+  .hero__scroll { display: none; }
+
+  /* LinkedIn card fills the column instead of floating half-width */
+  .contact__grid { flex-direction: column; align-items: stretch; }
+  .contact__badge { width: 100%; }
+  .licard { width: 100%; min-width: 0; }
+
+  /* footer: stack lines and leave room for the résumé button */
+  .contact__bottom {
+    flex-direction: column; align-items: flex-start; gap: 0.6rem;
+    padding-bottom: 5.5rem;
+  }
+
+  .resume-fab { padding: 0.65rem 1.1rem; font-size: 0.82rem; }
+}
+
+/* ── 3D ice background ──────────────────────────────────── */
+:root {
+  --glass: rgba(7, 13, 21, 0.68);
+  --glass-line: rgba(168, 214, 255, 0.15);
+}
+
+.ice-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: #04070c;
+}
+.ice-bg--fallback {
+  background:
+    radial-gradient(60rem 40rem at 75% 20%, rgba(85, 184, 255, 0.14), transparent 65%),
+    radial-gradient(50rem 36rem at 15% 85%, rgba(44, 143, 214, 0.1), transparent 60%),
+    #04070c;
+}
+.ice-bg__canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  opacity: 0; transition: opacity 1.2s ease;
+}
+.ice-bg__canvas.is-ready { opacity: 1; }
+.ice-bg__vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(4, 7, 12, 0.55) 75%, rgba(4, 7, 12, 0.9) 100%);
+}
+.ice-hud {
+  position: absolute; left: var(--gutter); bottom: clamp(1rem, 4vw, 2.2rem);
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: #c6ecff; opacity: 0.8;
+}
+.ice-hud::before { content: '// '; color: #55b8ff; }
+
+/* content sits above the canvas */
+main { position: relative; z-index: 1; }
+
+/* text blocks on dark glass so they stay readable over the scene */
+.hero__fg,
+.pcard,
+.about, .research, .skills, .certs, .contact {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-line);
+}
+.hero__fg { padding: clamp(1.2rem, 2.5vw, 1.8rem); border-radius: 20px; }
+/* long grey body copy needs a denser panel to hold AA over bright crystals */
+.about, .research, .skills, .certs, .contact {
+  background: rgba(7, 13, 21, 0.8);
+  width: calc(100% - 2 * clamp(12px, 3vw, 40px));
+  margin: clamp(32px, 6vh, 72px) auto;
+  padding: clamp(48px, 8vh, 110px) var(--gutter);
+  border-radius: 24px;
+}
+
+/* one project per row so the camera can visit each pane in turn;
+   cards alternate sides to leave their ice pane in view */
+.projects__grid { grid-template-columns: 1fr; gap: clamp(2rem, 16vh, 10rem); }
+.projects__grid > :first-child { grid-column: auto; }
+.projects__grid > .pcard { width: 100%; max-width: 540px; }
+.projects__grid > .pcard:nth-child(even) { justify-self: end; }
+
+@media (max-width: 900px) {
+  .ice-hud { display: none; }
+  .projects__grid > .pcard { max-width: none; }
+}
+/* blur over a live canvas is costly on phones; go more opaque instead */
+@media (max-width: 700px) {
+  .hero__fg,
+  .pcard,
+  .about, .research, .skills, .certs, .contact {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(7, 13, 21, 0.84);
+  }
+  .projects__grid { gap: 1.4rem; }
 }
