@@ -2,14 +2,14 @@
 
 :root {
   /* Design tokens (from Portfolio Workspace Plan) */
-  --accent: #d2ff00;       /* neon lime */
-  --olive: #282c20;        /* secondary dark sections */
-  --bg: #111112;           /* near black */
-  --muted: #8b8d83;        /* captions / secondary text */
-  --fg: #f4f4ed;           /* off-white main text */
+  --accent: #a8dcff;       /* ice blue */
+  --olive: #0c1824;        /* secondary dark sections */
+  --bg: #04070c;           /* ice-field navy black */
+  --muted: #8fa3b8;        /* captions / secondary text */
+  --fg: #eef6ff;           /* frost white main text */
 
-  --bg-2: #16161a;
-  --line: rgba(244, 244, 237, 0.1);
+  --bg-2: #0a121c;
+  --line: rgba(198, 236, 255, 0.1);
 
   --maxw: 1280px;
   --gutter: clamp(20px, 5vw, 72px);
@@ -69,7 +69,7 @@ ul { list-style: none; }
 
 ::-webkit-scrollbar { width: 9px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: #2c2c30; border-radius: 99px; }
+::-webkit-scrollbar-thumb { background: #1b2a3a; border-radius: 99px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 @media (prefers-reduced-motion: reduce) {
