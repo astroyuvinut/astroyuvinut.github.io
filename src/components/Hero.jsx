@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, useReducedMotion } from 'framer-motion'
 import Magnetic from './fx/Magnetic'
 
 import signature from '../assets/signature.webp'
@@ -20,6 +20,29 @@ export default function Hero() {
   const my = useSpring(useMotionValue(-999), { stiffness: 260, damping: 30 })
   const lightR = useSpring(0, { stiffness: 160, damping: 22 })
   const mask = useMotionTemplate`radial-gradient(circle ${lightR}px at ${mx}px ${my}px, #000 30%, transparent 100%)`
+
+  // touch screens have no hover, so a beam sweeps across the name on its own
+  const reduce = useReducedMotion()
+  useEffect(() => {
+    if (reduce || matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    const SWEEP = 2400, PERIOD = 5200, START = 1600
+    const t0 = performance.now() + START
+    let raf = 0
+    const tick = (now) => {
+      raf = requestAnimationFrame(tick)
+      const el = nameRef.current
+      if (!el || now < t0 || scrollY > innerHeight) return
+      const phase = ((now - t0) % PERIOD) / SWEEP
+      const r = el.getBoundingClientRect()
+      if (phase > 1) { lightR.set(0); return }
+      const e = phase < 0.5 ? 2 * phase * phase : 1 - (-2 * phase + 2) ** 2 / 2
+      mx.jump(r.width * (-0.15 + 1.3 * e))
+      my.jump(r.height * (0.5 + 0.25 * Math.sin(phase * Math.PI * 2)))
+      lightR.set(170)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [reduce, mx, my, lightR])
 
   const track = (e) => {
     if (e.pointerType !== 'mouse' || !nameRef.current) return
@@ -79,7 +102,6 @@ export default function Hero() {
           initial={{ y: 16 }} animate={{ y: 0 }}
           transition={{ delay: 0.5, duration: 0.7 }}
         >
-          <span className="hero__live" aria-hidden />
           AI / ML ENGINEER · CSE–AI UNDERGRAD · ASPIRING ISRO / SPACE-AI RESEARCHER
         </motion.span>
 

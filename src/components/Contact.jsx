@@ -21,7 +21,7 @@ function LocalTime() {
     const id = setInterval(() => setT(fmt()), 1000)
     return () => clearInterval(id)
   }, [])
-  return <span className="localtime"><span className="localtime__dot" aria-hidden />{t} IST</span>
+  return <span className="localtime">{t} IST</span>
 }
 
 export default function Contact() {

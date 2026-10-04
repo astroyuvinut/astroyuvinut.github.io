@@ -114,16 +114,6 @@
   -webkit-text-stroke: 1.5px rgba(168, 220, 255, 0.9);
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
 }
-.hero__live {
-  display: inline-block; width: 7px; height: 7px; border-radius: 50%;
-  background: #6dffb0; margin-right: 0.7rem; vertical-align: 1px;
-  animation: livePing 2s ease-out infinite;
-}
-@keyframes livePing {
-  0% { box-shadow: 0 0 0 0 rgba(109, 255, 176, 0.6); }
-  80%, 100% { box-shadow: 0 0 0 10px rgba(109, 255, 176, 0); }
-}
-
 /* rotating ice edge around the hero panel */
 @property --spin { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
 .hero__fg-glow {
@@ -150,6 +140,8 @@
 .pcard { --mx: 50%; --my: 50%; }
 .pcard > *:not(.pcard__spot):not(.pcard__num):not(.pcard__arrow) { position: relative; z-index: 1; }
 .pcard__arrow { z-index: 1; }
+/* leave room for the hover arrow so it never sits on the tag */
+.pcard:not(.pcard--nolink) .pcard__top { padding-right: 2.4rem; }
 .pcard__spot {
   position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
   opacity: 0; transition: opacity .4s ease;
@@ -215,10 +207,6 @@
 
 /* ── Contact extras ─────────────────────────────────────── */
 .localtime { display: inline-flex; align-items: center; gap: 0.45rem; color: var(--fg); font-variant-numeric: tabular-nums; }
-.localtime__dot {
-  width: 6px; height: 6px; border-radius: 50%; background: #6dffb0;
-  animation: fabPulse 1s ease-in-out infinite;
-}
 
 @media (prefers-reduced-motion: reduce) {
   .grain { display: none; }
@@ -254,4 +242,78 @@
 /* ── Cursor trail ───────────────────────────────────────── */
 .cursor-trail {
   position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 399; pointer-events: none;
+}
+
+/* ============================================================
+   Mobile interface
+   ============================================================ */
+
+/* top bar résumé chip (phones/tablets — replaces the floating button) */
+.nav__resume { display: none; }
+
+/* bottom dock */
+.dock { display: none; }
+
+@media (max-width: 900px) {
+  .resume-fab { display: none; }
+  .nav__resume {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    min-height: 40px; padding: 0 1rem; border-radius: 99px;
+    background: var(--accent); color: #000; font-weight: 800; font-size: 0.82rem;
+    box-shadow: 0 6px 20px rgba(168, 220, 255, 0.25);
+  }
+
+  .dock {
+    position: fixed; z-index: 220; left: 50%; translate: -50% 0;
+    bottom: calc(14px + env(safe-area-inset-bottom));
+    display: flex; gap: 2px; padding: 5px;
+    width: min(calc(100% - 24px), 440px);
+    border-radius: 22px; overflow: hidden;
+    background: rgba(8, 15, 24, 0.78);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid rgba(168, 220, 255, 0.16);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .dock__progress {
+    position: absolute; left: 0; right: 0; top: 0; height: 2px; transform-origin: 0 50%;
+    background: linear-gradient(90deg, #55b8ff, var(--accent));
+    box-shadow: 0 0 10px rgba(168, 220, 255, 0.8);
+  }
+  .dock__item {
+    position: relative; flex: 1; min-width: 0; min-height: 50px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    border-radius: 17px; color: var(--muted);
+    -webkit-tap-highlight-color: transparent;
+    transition: color .3s ease;
+  }
+  .dock__item:active { transform: scale(0.94); }
+  .dock__item.is-active { color: #000; }
+  .dock__pill {
+    position: absolute; inset: 0; border-radius: inherit; z-index: 0;
+    background: var(--accent);
+    box-shadow: 0 0 18px rgba(168, 220, 255, 0.45);
+  }
+  .dock__n, .dock__label { position: relative; z-index: 1; }
+  .dock__n {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; opacity: 0.7;
+  }
+  .dock__label { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.01em; }
+
+  /* keep the last lines of content clear of the dock */
+  .contact__bottom { padding-bottom: calc(6rem + env(safe-area-inset-bottom)); }
+
+  /* project card in the middle of the screen gets the desktop hover look */
+  .pcard.is-centred { border-color: rgba(168, 220, 255, 0.45); }
+  .pcard.is-centred .pcard__spot { opacity: 1; --mx: 70%; --my: 20%; }
+  .pcard.is-centred .pcard__num { -webkit-text-stroke-color: rgba(168, 220, 255, 0.4); transform: translateY(-8px); }
+  .pcard.is-centred .pcard__stack li { border-color: rgba(168, 220, 255, 0.35); color: var(--fg); }
+}
+
+/* frost ring from taps */
+.tap-ring {
+  position: fixed; z-index: 500; pointer-events: none;
+  width: 90px; height: 90px; border-radius: 50%;
+  border: 1.5px solid rgba(168, 220, 255, 0.85);
+  box-shadow: 0 0 16px rgba(168, 220, 255, 0.5), inset 0 0 12px rgba(168, 220, 255, 0.35);
 }

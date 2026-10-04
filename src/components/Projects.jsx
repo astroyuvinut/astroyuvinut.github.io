@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'framer-motion'
+import { motion, useInView, useMotionValue, useSpring, useTransform, useReducedMotion } from 'framer-motion'
 import Reveal from './Reveal'
 import Scramble from './fx/Scramble'
 import { PROJECTS } from '../data/projects'
@@ -28,6 +28,16 @@ function Card({ p, index }) {
   }
   const onLeave = () => { px.set(0); py.set(0) }
 
+  // touch screens: the card crossing the middle of the screen lights up and pulses its pane
+  const centred = useInView(ref, { margin: '-42% 0px -42% 0px' })
+  useEffect(() => {
+    if (!centred || matchMedia('(hover: hover)').matches) return
+    const ice = getIce()
+    ice?.pulse(index)
+    ice?.emit(12, true)
+    navigator.vibrate?.(6)
+  }, [centred, index])
+
   // flash this project's ice pane and fire a particle burst down the track
   useEffect(() => {
     const el = ref.current
@@ -48,7 +58,7 @@ function Card({ p, index }) {
   return (
     <motion.a
       ref={ref}
-      className={`pcard ${hasRepo ? '' : 'pcard--nolink'}`}
+      className={`pcard ${hasRepo ? '' : 'pcard--nolink'} ${centred ? 'is-centred' : ''}`}
       href={hasRepo ? p.repo : undefined}
       target={hasRepo ? '_blank' : undefined}
       rel={hasRepo ? 'noreferrer' : undefined}

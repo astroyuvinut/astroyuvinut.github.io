@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Scramble from './fx/Scramble'
 import Magnetic from './fx/Magnetic'
 
@@ -13,7 +13,6 @@ const LINKS = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
   const [hovered, setHovered] = useState(null)
 
   useEffect(() => {
@@ -53,32 +52,13 @@ export default function Navbar() {
         <a href="#contact" className="nav__pill">Let&apos;s talk</a>
       </Magnetic>
 
-      <button
-        className="nav__burger"
-        aria-label="Toggle menu"
-        onClick={() => setOpen((o) => !o)}
+      <a
+        className="nav__resume"
+        href={`${import.meta.env.BASE_URL}Yuvaraj-Resume.pdf`}
+        download="Yuvaraju-Bondada-Resume.pdf"
       >
-        <span className={open ? 'open' : ''} />
-        <span className={open ? 'open' : ''} />
-      </button>
-
-      <AnimatePresence>
-        {open && (
-          <motion.nav
-            className="nav__mobile"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.25 }}
-          >
-            {LINKS.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)}>
-                {l.label}
-              </a>
-            ))}
-          </motion.nav>
-        )}
-      </AnimatePresence>
+        Résumé <span aria-hidden>↓</span>
+      </a>
     </motion.header>
   )
 }

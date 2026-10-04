@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import PageWipe from './PageWipe'
 import CursorTrail from './CursorTrail'
+import MobileDock from './MobileDock'
 import { motion, useMotionValue, useSpring, useScroll, useReducedMotion, AnimatePresence } from 'framer-motion'
 
 const HOVERABLE = 'a, button, [data-cursor]'
@@ -104,6 +105,30 @@ function useClickBurst(enabled) {
   }, [enabled])
 }
 
+/** Frost ring that spreads from every tap on touch screens. */
+function useTapRipple(enabled) {
+  useEffect(() => {
+    if (!enabled) return
+    const onDown = (e) => {
+      if (e.pointerType === 'mouse') return
+      const r = document.createElement('span')
+      r.className = 'tap-ring'
+      r.style.left = `${e.clientX}px`
+      r.style.top = `${e.clientY}px`
+      document.body.appendChild(r)
+      r.animate(
+        [
+          { transform: 'translate(-50%,-50%) scale(0.2)', opacity: 0.9 },
+          { transform: 'translate(-50%,-50%) scale(1)', opacity: 0 },
+        ],
+        { duration: 620, easing: 'cubic-bezier(.22,1,.36,1)' },
+      ).onfinish = () => r.remove()
+    }
+    window.addEventListener('pointerdown', onDown, { passive: true })
+    return () => window.removeEventListener('pointerdown', onDown)
+  }, [enabled])
+}
+
 /** Page-wide layer: scroll progress bar, film grain, custom cursor, click shards. */
 export default function Effects() {
   const reduce = useReducedMotion()
@@ -112,12 +137,14 @@ export default function Effects() {
   const [fine] = useState(() => window.matchMedia('(hover: hover) and (pointer: fine)').matches)
 
   useClickBurst(!reduce)
+  useTapRipple(!fine && !reduce)
 
   return (
     <>
       <motion.div className="scrollbar" style={{ scaleX: progress }} aria-hidden />
       <div className="grain" aria-hidden />
       {!reduce && <PageWipe />}
+      <MobileDock />
       {fine && !reduce && <CursorTrail />}
       {fine && !reduce && <Cursor />}
     </>
