@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import PageWipe from './PageWipe'
+import CursorTrail from './CursorTrail'
 import { motion, useMotionValue, useSpring, useScroll, useReducedMotion, AnimatePresence } from 'framer-motion'
 
 const HOVERABLE = 'a, button, [data-cursor]'
@@ -115,6 +117,8 @@ export default function Effects() {
     <>
       <motion.div className="scrollbar" style={{ scaleX: progress }} aria-hidden />
       <div className="grain" aria-hidden />
+      {!reduce && <PageWipe />}
+      {fine && !reduce && <CursorTrail />}
       {fine && !reduce && <Cursor />}
     </>
   )

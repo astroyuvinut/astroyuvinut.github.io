@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
+import { wipeTo } from '../lib/wipeHandle'
 
 /**
  * Initialises Lenis smooth scrolling for the whole page.
- * Also wires anchor links (href="#id") to Lenis so in-page nav is smooth.
+ * Also wires anchor links (href="#id") to Lenis: the page wipe covers the screen,
+ * the scroll jumps underneath, and the wipe lifts on the target section.
  */
 export function useLenis() {
   useEffect(() => {
@@ -30,7 +32,8 @@ export function useLenis() {
       const el = document.querySelector(id)
       if (!el) return
       e.preventDefault()
-      lenis.scrollTo(el, { offset: -10 })
+      const label = id === '#top' ? 'HOME' : id.slice(1).toUpperCase()
+      wipeTo(label, () => lenis.scrollTo(el, { offset: -10, immediate: true, force: true }))
     }
     document.addEventListener('click', onClick)
 
