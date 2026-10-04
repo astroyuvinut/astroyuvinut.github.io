@@ -1,4 +1,8 @@
 import Reveal from './Reveal'
+import { useEffect, useState } from 'react'
+import Scramble from './fx/Scramble'
+import Magnetic from './fx/Magnetic'
+import ScrollWords from './fx/ScrollWords'
 
 const SOCIALS = [
   { label: 'GitHub', href: 'https://github.com/astroyuvinut' },
@@ -9,24 +13,38 @@ const SOCIALS = [
 const EMAIL = 'yuvarajubondada111@gmail.com'
 const LINKEDIN_URL = 'https://in.linkedin.com/in/yuvaraju-bondada-020667326?trk=profile-badge'
 
+/** Live Visakhapatnam time, ticking each second. */
+function LocalTime() {
+  const fmt = () => new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata', hour12: false })
+  const [t, setT] = useState(fmt)
+  useEffect(() => {
+    const id = setInterval(() => setT(fmt()), 1000)
+    return () => clearInterval(id)
+  }, [])
+  return <span className="localtime"><span className="localtime__dot" aria-hidden />{t} IST</span>
+}
+
 export default function Contact() {
   return (
     <footer className="contact section" id="contact" data-shot="wide" data-label="Contact">
-      <Reveal as="p" className="section__kicker">[ SIGNAL FOUND ]</Reveal>
-      <Reveal>
-        <h2 className="contact__big">
-          Let&apos;s build something
-          <br />
-          <span className="serif accent">that reaches orbit.</span>
-        </h2>
-      </Reveal>
+      <Reveal as="p" className="section__kicker"><Scramble text="[ SIGNAL FOUND ]" /></Reveal>
+      <ScrollWords
+        as="h2"
+        className="contact__big"
+        segments={[
+          { t: "Let's build something " },
+          { t: 'that reaches orbit.', className: 'serif accent' },
+        ]}
+      />
 
       <div className="contact__grid">
         <div>
           <Reveal delay={0.1}>
-            <a href={`mailto:${EMAIL}`} className="contact__email">
-              {EMAIL}
-            </a>
+            <Magnetic strength={0.2}>
+              <a href={`mailto:${EMAIL}`} className="contact__email" data-cursor="Say hi" data-burst>
+                {EMAIL}
+              </a>
+            </Magnetic>
           </Reveal>
 
           <Reveal delay={0.2}>
@@ -34,7 +52,7 @@ export default function Contact() {
               {SOCIALS.map((s) => (
                 <li key={s.label}>
                   <a href={s.href} target="_blank" rel="noreferrer">
-                    {s.label} <span className="accent">↗</span>
+                    <Scramble text={s.label} hover duration={500} /> <span className="accent">↗</span>
                   </a>
                 </li>
               ))}
@@ -65,7 +83,7 @@ export default function Contact() {
 
       <div className="contact__bottom">
         <span>© {new Date().getFullYear()} Yuvaraju Bondada</span>
-        <span>Visakhapatnam, India · Open to AI research &amp; engineering roles</span>
+        <span>Visakhapatnam, India · <LocalTime /> · Open to AI research &amp; engineering roles</span>
         <a href="#top">Back to top ↑</a>
       </div>
     </footer>

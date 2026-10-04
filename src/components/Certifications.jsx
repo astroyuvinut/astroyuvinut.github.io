@@ -1,4 +1,6 @@
 import Reveal from './Reveal'
+import Scramble from './fx/Scramble'
+import OrbitMark from './fx/OrbitMark'
 
 const CERTS = [
   { org: 'Tata', name: 'GenAI Powered Data Analytics Job Simulation — Forage', year: 'Feb 2026' },
@@ -11,7 +13,7 @@ const CERTS = [
 export default function Certifications() {
   return (
     <section className="certs section" data-shot="wide" data-label="Certifications">
-      <Reveal as="p" className="section__kicker">[ CERTIFICATIONS ]</Reveal>
+      <Reveal as="p" className="section__kicker"><Scramble text="[ CERTIFICATIONS ]" /></Reveal>
       <Reveal>
         <h2 className="section__title">
           Proof of <span className="serif accent">work</span>
@@ -20,11 +22,11 @@ export default function Certifications() {
       <div className="certs__list">
         {CERTS.map((c, i) => (
           <Reveal key={i} delay={i * 0.06}>
-            <div className="cert">
+            <div className="cert" data-cursor="Verified">
               <span className="cert__org">{c.org}</span>
               <span className="cert__name">{c.name}</span>
               {c.year && <span className="cert__year">{c.year}</span>}
-              <span className="cert__mark accent">✦</span>
+              <span className="cert__mark accent"><OrbitMark /></span>
             </div>
           </Reveal>
         ))}

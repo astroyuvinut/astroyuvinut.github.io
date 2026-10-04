@@ -1,22 +1,30 @@
 import Reveal from './Reveal'
+import Scramble from './fx/Scramble'
+import ScrollWords from './fx/ScrollWords'
+import Counter from './fx/Counter'
 
 const STATS = [
-  { n: '5', l: 'Featured projects' },
-  { n: '5', l: 'Certifications' },
-  { n: '4', l: 'Languages spoken' },
+  { n: 5, l: 'Featured projects' },
+  { n: 5, l: 'Certifications' },
+  { n: 4, l: 'Languages spoken' },
 ]
 
 export default function About() {
   return (
     <section className="about section" id="about" data-shot="wide" data-label="About">
-      <Reveal as="p" className="section__kicker">[ ABOUT ]</Reveal>
+      <Reveal as="p" className="section__kicker"><Scramble text="[ ABOUT ]" /></Reveal>
       <div className="about__grid">
-        <Reveal>
-          <h2 className="about__lead">
-            A <span className="serif accent">CSE–AI undergrad</span> building
-            real systems — and aiming them at <span className="serif accent">space</span>.
-          </h2>
-        </Reveal>
+        <ScrollWords
+          as="h2"
+          className="about__lead"
+          segments={[
+            { t: 'A ' },
+            { t: 'CSE–AI undergrad', className: 'serif accent' },
+            { t: ' building real systems — and aiming them at ' },
+            { t: 'space', className: 'serif accent' },
+            { t: '.' },
+          ]}
+        />
         <Reveal delay={0.15}>
           <p className="about__body">
             I&apos;m Yuvaraju — a third-year B.Tech CSE (AI) student at KIET, based in
@@ -38,7 +46,7 @@ export default function About() {
         {STATS.map((s, i) => (
           <Reveal key={s.l} delay={i * 0.1}>
             <div className="stat">
-              <span className="stat__n accent">{s.n}</span>
+              <Counter to={s.n} className="stat__n accent" />
               <span className="stat__l">{s.l}</span>
             </div>
           </Reveal>

@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
+import Scramble from './fx/Scramble'
 
 /** Big editorial divider: ON EARTH / IN ORBIT / IN CODE / SIGNAL FOUND */
 export default function Divider({ label, index = '01' }) {
@@ -10,7 +11,9 @@ export default function Divider({ label, index = '01' }) {
   return (
     <div className="divider" ref={ref}>
       <span className="divider__index accent">{index}</span>
-      <motion.h2 className="divider__label" style={{ x }}>{label}</motion.h2>
+      <motion.h2 className="divider__label" style={{ x }}>
+        <Scramble text={label} duration={1200} hover />
+      </motion.h2>
     </div>
   )
 }

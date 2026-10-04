@@ -1,4 +1,6 @@
 import Reveal from './Reveal'
+import Scramble from './fx/Scramble'
+import Marquee from './fx/Marquee'
 
 const GROUPS = [
   { title: 'Languages', items: ['Python', 'JavaScript', 'HTML', 'CSS'] },
@@ -14,7 +16,7 @@ const LOGOS = ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'React', 'GitH
 export default function Skills() {
   return (
     <section className="skills section" id="skills" data-shot="wide" data-label="Skills">
-      <Reveal as="p" className="section__kicker">[ SKILLS STACK ]</Reveal>
+      <Reveal as="p" className="section__kicker"><Scramble text="[ SKILLS STACK ]" /></Reveal>
       <Reveal>
         <h2 className="section__title">
           What I <span className="serif accent">build with</span>
@@ -34,13 +36,7 @@ export default function Skills() {
         ))}
       </div>
 
-      <Reveal>
-        <div className="logostrip">
-          {[...LOGOS, ...LOGOS].map((l, i) => (
-            <span key={i} className="logostrip__item">{l}</span>
-          ))}
-        </div>
-      </Reveal>
+      <Marquee items={LOGOS} className="marquee logostrip" />
     </section>
   )
 }

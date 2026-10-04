@@ -1,4 +1,5 @@
 import './App.css'
+import './fx.css'
 import { useState, useEffect, useCallback } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLenis } from './hooks/useLenis'
@@ -14,6 +15,7 @@ import Research from './components/Research'
 import Certifications from './components/Certifications'
 import Contact from './components/Contact'
 import IceBackground from './components/IceBackground'
+import Effects from './components/fx/Effects'
 import { PROJECTS } from './data/projects'
 
 const INTRO_KEY = 'intro-seen'
@@ -42,6 +44,7 @@ export default function App() {
       </AnimatePresence>
 
       <IceBackground stationCount={PROJECTS.length} />
+      <Effects />
       <ResumeButton />
       <Navbar />
 
