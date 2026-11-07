@@ -111,6 +111,7 @@ export default function Hero() {
           transition={{ delay: 0.7, duration: 0.7 }}
         >
           Building <span className="serif shimmer">intelligent systems</span> for Earth &amp; space.
+          <span className="hero__now">Currently building Akasha</span>
         </motion.p>
 
         <motion.div

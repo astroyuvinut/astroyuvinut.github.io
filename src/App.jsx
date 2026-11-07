@@ -7,6 +7,7 @@ import Preloader from './components/Preloader'
 import ResumeButton from './components/ResumeButton'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import Building from './components/Building'
 import Divider from './components/Divider'
 import About from './components/About'
 import Projects from './components/Projects'
@@ -55,6 +56,7 @@ export default function App() {
         style={{ transformOrigin: '50% 35%' }}
       >
         <Hero />
+        <Building />
 
         <Divider label="ON EARTH" index="01" />
         <About />
